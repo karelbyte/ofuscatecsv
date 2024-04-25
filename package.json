@@ -1,0 +1,23 @@
+{
+  "name": "ofuscatecsv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ofuscatecsv"
+  },
+  "keywords": [
+    "ofuscatecsv"
+  ],
+  "author": "Karel Puerto",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "fast-csv": "^5.0.1"
+  }
+}
