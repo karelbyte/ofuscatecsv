@@ -48,6 +48,22 @@ if (!existsSync("out")) {
 
 const ofuscate = [];
 
+function scrambleColumn(data, column) {
+  const columnx = data.map((row) => row[column - 1]);
+  const scrambledColumn = columnx.slice().sort(() => Math.random() - 0.5);
+  data.forEach((row, index) => {
+    row[column - 1] = scrambledColumn[index];
+  });
+  return data;
+}
+
+function replaceColumn(data, column, term) {
+  data.forEach((row) => {
+    row[column - 1] = term;
+  });
+  return data;
+}
+
 createReadStream(`ofuscate.cfg`)
   .pipe(csv({ separator: "|", headers: false }))
   .on("data", (row) => {
@@ -55,26 +71,12 @@ createReadStream(`ofuscate.cfg`)
   })
   .on("end", () => {
     if (ofuscate.length !== cvsFiles.length) {
-      console.log(`La cantidad de archivos a ofuscar no coincide con ofuscate.cfg`);
+      console.log(
+        `La cantidad de archivos a ofuscar no coincide con ofuscate.cfg`
+      );
       process.exit(1);
     }
     cvsFiles.forEach((file, index) => {
-      function scrambleColumn(data, column) {
-        const columnx = data.map((row) => row[column - 1]);
-        const scrambledColumn = columnx.slice().sort(() => Math.random() - 0.5);
-        data.forEach((row, index) => {
-          row[column - 1] = scrambledColumn[index];
-        });
-        return data;
-      }
-
-      function replaceColumn(data, column, term) {
-        data.forEach((row) => {
-          row[column - 1] = term;
-        });
-        return data;
-      }
-
       let masterData = [];
       createReadStream(`files/${file}`)
         .pipe(csv({ separator: "|", headers: false }))
