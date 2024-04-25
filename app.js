@@ -8,7 +8,7 @@ import {
 import csv from "csv-parser";
 import * as csvWriter from "fast-csv";
 
-let cvsFiles;
+let csvFiles;
 let emailcfg;
 let email = null;
 
@@ -18,7 +18,10 @@ if (!existsSync("files")) {
 }
 
 try {
-  cvsFiles = readFileSync("files.cfg", "utf8").split("\n").filter(Boolean);
+  csvFiles = readFileSync("files.cfg", "utf8")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
 } catch (e) {
   console.log(`No se encontro a files.cfg`);
   process.exit(1);
@@ -70,13 +73,13 @@ createReadStream(`ofuscate.cfg`)
     ofuscate.push(row);
   })
   .on("end", () => {
-    if (ofuscate.length !== cvsFiles.length) {
+    if (ofuscate.length !== csvFiles.length) {
       console.log(
         `La cantidad de archivos a ofuscar no coincide con ofuscate.cfg`
       );
       process.exit(1);
     }
-    cvsFiles.forEach((file, index) => {
+    csvFiles.forEach((file, index) => {
       let masterData = [];
       createReadStream(`files/${file}`)
         .pipe(csv({ separator: "|", headers: false }))
