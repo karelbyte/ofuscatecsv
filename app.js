@@ -93,8 +93,10 @@ createReadStream(`ofuscate.cfg`)
             masterData = scrambleColumn(masterData, columns_to_scramble[i]);
           }
 
-          masterData = replaceColumn(masterData, 92, email);
-
+          if (email !== null && email !== 'null') {
+            masterData = replaceColumn(masterData, 92, email);
+          } 
+      
           const csvFilePath = `out/${file}`;
 
           const writableStream = createWriteStream(csvFilePath);
