@@ -54,6 +54,10 @@ createReadStream(`ofuscate.cfg`)
     ofuscate.push(row);
   })
   .on("end", () => {
+    if (ofuscate.length !== cvsFiles.length) {
+      console.log(`La cantidad de archivos a ofuscar no coincide con ofuscate.cfg`);
+      process.exit(1);
+    }
     cvsFiles.forEach((file, index) => {
       function scrambleColumn(data, column) {
         const columnx = data.map((row) => row[column - 1]);
