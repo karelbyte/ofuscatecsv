@@ -12,6 +12,7 @@ import * as csvWriter from "fast-csv";
 let csvFiles;
 let emailcfg;
 let email = null;
+let seed = null;
 
 if (!existsSync("files")) {
   console.log(`No se encontro la carpeta files`);
@@ -26,7 +27,7 @@ if (!existsSync("seed.cfg")) {
 try {
   const seeds = readFileSync("seed.cfg", "utf8").split("\n").filter(Boolean);
   if (seeds && seeds.length > 0) {
-    seedrandom(seeds[0], { global: true });
+    seed = seeds[0]
   }
 } catch (e) {
   console.log(`No se encontro a seed.cfg`);
@@ -103,6 +104,7 @@ createReadStream(`ofuscate.cfg`)
           masterData.push(row);
         })
         .on("end", () => {
+          seedrandom(seed, { global: true });
           const columns_to_scramble = ofuscate[index];
 
           for (const i in columns_to_scramble) {
