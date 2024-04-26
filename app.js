@@ -5,6 +5,7 @@ import {
   existsSync,
   mkdirSync,
 } from "fs";
+import seedrandom from 'seedrandom';
 import csv from "csv-parser";
 import * as csvWriter from "fast-csv";
 
@@ -16,6 +17,22 @@ if (!existsSync("files")) {
   console.log(`No se encontro la carpeta files`);
   process.exit(1);
 }
+
+if (!existsSync("seed.cfg")) {
+  console.log(`No se encontro seed.cfg`);
+  process.exit(1);
+}
+
+try {
+  const seeds = readFileSync("seed.cfg", "utf8").split("\n").filter(Boolean);
+  if (seeds && seeds.length > 0) {
+    seedrandom(seeds[0], { global: true });
+  }
+} catch (e) {
+  console.log(`No se encontro a seed.cfg`);
+  process.exit(1);
+}
+
 
 try {
   csvFiles = readFileSync("files.cfg", "utf8")
@@ -29,7 +46,6 @@ try {
 
 try {
   emailcfg = readFileSync("email.cfg", "utf8").split("\n").filter(Boolean);
-
   if (emailcfg && emailcfg.length > 0) {
     email = emailcfg[0];
   }
