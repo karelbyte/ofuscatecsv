@@ -19,6 +19,7 @@
   "dependencies": {
     "csv-parser": "^3.0.0",
     "fast-csv": "^5.0.1",
+    "ofuscatecsv": "file:",
     "seedrandom": "^3.0.5"
   }
 }
